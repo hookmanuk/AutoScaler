@@ -2,6 +2,7 @@
 #include <Windows.h>
 #include "Plugin.hpp"
 #include <string>
+#include <C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v12.9\include\nvml.h>
 
 using namespace uevr;
 
@@ -9,83 +10,70 @@ typedef int (*GetGPUUsageFn)();
 
 class UEVRPlugin : public Plugin {
 public:
-    HMODULE hModule = nullptr;
-    GetGPUUsageFn get_gpu_usage = nullptr;
+    HMODULE hModule = nullptr;    
     int screenpercentage = 50;
     float sinceincrease = 0;
     float sincedecrease = 0;
 
-    UEVRPlugin() = default;
+    int get_gpu_usage() {
+        static bool initialized = false;
+        static nvmlDevice_t device;
 
-    void on_dllmain(HANDLE handle) override {
-        
+        if (!initialized) {
+            if (nvmlInit() != NVML_SUCCESS) return -1;
+            if (nvmlDeviceGetHandleByIndex(0, &device) != NVML_SUCCESS) return -1;
+            initialized = true;
+        }
 
-        //API::get()->log_info("DLL and function loaded successfully.");
-        
-        //API::get()->log_info("no");
-                
+        nvmlUtilization_t utilization;
+        if (nvmlDeviceGetUtilizationRates(device, &utilization) == NVML_SUCCESS) {
+            return utilization.gpu;
+        }
+
+        return -1;
     }
 
-    void on_initialize() override {
-        hModule = LoadLibraryW(L"AutoScalerNvidia.dll");
-        if (!hModule) {
-            API::get()->log_error("Failed to load AutoScalerNvidia.dll");
-            return;
-        }
+    UEVRPlugin() = default;
 
-        get_gpu_usage = (GetGPUUsageFn)GetProcAddress(hModule, "get_gpu_usage");
-        if (!get_gpu_usage) {
-            API::get()->log_error("Function not found in DLL.");
-            FreeLibrary(hModule);
-            hModule = nullptr;
-            return;
-        }
+    void on_dllmain(HANDLE handle) override {     
+    }
+
+    void on_initialize() override {        
         API::get()->log_info("Plugin initialized.");
     }
 
-    void on_post_engine_tick(UEVR_UGameEngineHandle engine, float delta) override {
-        if (get_gpu_usage) {
-            sinceincrease = sinceincrease + delta;
-            sincedecrease = sincedecrease + delta;
-            int usage = get_gpu_usage();
-            API::get()->log_info("GPU Usage: %d%%", usage);
+    void on_post_engine_tick(UEVR_UGameEngineHandle engine, float delta) override {        
+        sinceincrease = sinceincrease + delta;
+        sincedecrease = sincedecrease + delta;
+        int usage = get_gpu_usage();        
 
-            if (usage <= 82 && sinceincrease > 5) {
-                sinceincrease = 0;
-                screenpercentage = screenpercentage + 5;
-                std::wstring command = L"r.ScreenPercentage ";
-                command.append(std::to_wstring(screenpercentage));
-                API::get()->sdk()->functions->execute_command(command.c_str());
+        //aim to keep the usage between 82 & 92 percent
+        //increase infrequently only by 5%, every 5 seconds at most, to prevent too many hitches
+        //decrease often and by 10%, every 0.5 seconds if needed, so we're not below target too long
+        if (usage <= 82 && sinceincrease > 5) {            
+            screenpercentage = screenpercentage + 5;
+            std::wstring command = L"r.ScreenPercentage ";
+            command.append(std::to_wstring(screenpercentage));
+            API::get()->sdk()->functions->execute_command(command.c_str());
 
-                API::get()->log_info("Increased to: %d%%", screenpercentage);
-            }
-            if (usage >= 92 && sincedecrease > 1) {
-                sincedecrease = 0;
-                screenpercentage = screenpercentage - 10;
-                std::wstring command = L"r.ScreenPercentage ";
-                command.append(std::to_wstring(screenpercentage));
-                API::get()->sdk()->functions->execute_command(command.c_str());
-
-                API::get()->log_info("Decreased to: %d%%", screenpercentage);
-            }
+            API::get()->log_info("Usage now %d%%. Increased res to: %d%% after %.2f secs", usage, screenpercentage, sinceincrease);
+            sinceincrease = 0;
         }
-        else {
-            API::get()->log_info("No gpu usage function :(");
-        }
-    }
+        if (usage >= 92 && sincedecrease > 0.5) {            
+            screenpercentage = screenpercentage - 10;
+            std::wstring command = L"r.ScreenPercentage ";
+            command.append(std::to_wstring(screenpercentage));
+            API::get()->sdk()->functions->execute_command(command.c_str());
 
-    /*void on_shutdown() override {
-        if (hModule) {
-            FreeLibrary(hModule);
-            hModule = nullptr;
-        }
-    }*/
+            API::get()->log_info("Usage now %d%%. Decreased res to: %d%% after %.2f secs", usage, screenpercentage, sincedecrease);
+            sincedecrease = 0;
+        }       
+    }    
 };
 
 extern "C" __declspec(dllexport) Plugin* create_plugin() {
     return new UEVRPlugin();
 }
-
 
 // Actually creates the plugin. Very important that this global is created.
 // The fact that it's using std::unique_ptr is not important, as long as the constructor is called in some way.
