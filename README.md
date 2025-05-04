@@ -1,6 +1,6 @@
 # AutoScaler
 
-## Aims
+## Plugin Goal
 
 Automatically utilise between 82-92% of your GPU at all times in UEVR games.
 This means you should not go below your target framerate, and should also utilise your GPU with extra resolution when you have headroom.
