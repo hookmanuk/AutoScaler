@@ -20,7 +20,7 @@ Or, if you want to target 45fps motion smoothing, then turn motion smoothing on 
 This plugin is compatible with multiple UEVR games.
 It relies on being able to set the ScreenPercentage in code and it not to be overriden by the game itself.
 
-Primarily it has been tested as working well in Clair Obscur.
+Primarily it has been tested as working well in Clair Obscur, note you will want to set Global Illumination to Low to prevent temporal lighting issues upon Screen Percentage changing.
 
 Note that this plugin is only concerned with GPU usage. If your framerates are erratic due to CPU usage, then this plugin will not work well.
 
