@@ -14,6 +14,7 @@ public:
     int screenpercentage = 50;
     float sinceincrease = 0;
     float sincedecrease = 0;
+    int framesoverbudget = 0;
 
     int get_gpu_usage() {
         static bool initialized = false;
@@ -46,12 +47,14 @@ public:
         sinceincrease = sinceincrease + delta;
         sincedecrease = sincedecrease + delta;
         int usage = get_gpu_usage();        
-
+        if (usage == -1) {
+            return;
+        }
         //aim to keep the usage between 82 & 92 percent
         //increase infrequently only by 5%, every 5 seconds at most, to prevent too many hitches
         //decrease often and by 10%, every 0.5 seconds if needed, so we're not below target too long
-        if (usage <= 82 && sinceincrease > 5) {            
-            screenpercentage = screenpercentage + 5;
+        if (usage <= 82 && sinceincrease > 0.5 && screenpercentage < 100) {
+            screenpercentage = screenpercentage + 2;
             std::wstring command = L"r.ScreenPercentage ";
             command.append(std::to_wstring(screenpercentage));
             API::get()->sdk()->functions->execute_command(command.c_str());
@@ -59,15 +62,33 @@ public:
             API::get()->log_info("Usage now %d%%. Increased res to: %d%% after %.2f secs", usage, screenpercentage, sinceincrease);
             sinceincrease = 0;
         }
-        if (usage >= 92 && sincedecrease > 0.5) {            
-            screenpercentage = screenpercentage - 10;
+        if (usage >= 92) {
+            framesoverbudget = framesoverbudget + 1;
+            if (framesoverbudget > 9)
+            {
+                screenpercentage = screenpercentage - 3;
+                std::wstring command = L"r.ScreenPercentage ";
+                command.append(std::to_wstring(screenpercentage));
+                API::get()->sdk()->functions->execute_command(command.c_str());
+
+                API::get()->log_info("Usage now %d%%. Decreased res to: %d%% after %.2f secs", usage, screenpercentage, sincedecrease);
+                sincedecrease = 0;
+                framesoverbudget = 0;
+            }
+        }
+        else {
+            framesoverbudget = 0;
+        }
+
+        /*else if (usage >= 92 && sincedecrease > 0.1) {            
+            screenpercentage = screenpercentage - 3;
             std::wstring command = L"r.ScreenPercentage ";
             command.append(std::to_wstring(screenpercentage));
             API::get()->sdk()->functions->execute_command(command.c_str());
 
             API::get()->log_info("Usage now %d%%. Decreased res to: %d%% after %.2f secs", usage, screenpercentage, sincedecrease);
             sincedecrease = 0;
-        }       
+        }     */  
     }    
 };
 
