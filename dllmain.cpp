@@ -389,12 +389,24 @@ private:
 
             bool changed = false;
 
+            ImGui::Text("When GPU usage is below \"Usage Lower Bound\"");
+            ImGui::Text("for consecutive \"Frames Before Increasing\"");
+            ImGui::Text("then percentage is changed by \"Increase Res By\"");
             if (ImGui::SliderInt("Usage Lower Bound", &usagelowerbound, 60, 95)) {
                 changed = true;
                 if (usageupperbound <= usagelowerbound + 5) {
                     usageupperbound = usagelowerbound + 5;
                 }
             }
+            if (ImGui::SliderInt("Frames Before Increasing", &increaseframesrequired, 1, 1000)) {
+                changed = true;
+            }
+            if (ImGui::SliderInt("Increase Res By", &increaseresamount, 1, 20)) {
+                changed = true;
+            }
+            ImGui::Text("When GPU usage is above \"Usage Upper Bound\"");
+            ImGui::Text("for consecutive \"Frames Before Decreasing\"");
+            ImGui::Text("then percentage is changed by \"Decrease Res By\"");
             if (ImGui::SliderInt("Usage Upper Bound", &usageupperbound, 60, 95)) {
                 changed = true;
                 if (usagelowerbound >= usageupperbound - 5) {
@@ -404,13 +416,8 @@ private:
             if (ImGui::SliderInt("Frames Before Decreasing", &decreaseframesrequired, 1, 1000)) {
                 changed = true;
             }
-            if (ImGui::SliderInt("Frames Before Increasing", &increaseframesrequired, 1, 1000)) {
-                changed = true;
-            }
+
             if (ImGui::SliderInt("Decrease Res By", &decreaseresamount, 1, 20)) {
-                changed = true;
-            }
-            if (ImGui::SliderInt("Increase Res By", &increaseresamount, 1, 20)) {
                 changed = true;
             }
 
