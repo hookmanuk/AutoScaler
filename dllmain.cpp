@@ -205,9 +205,7 @@ public:
             framesunderbudget = framesunderbudget + 1;
             if (framesunderbudget > increaseframesrequired) {
                 screenpercentage = screenpercentage + increaseresamount;
-                std::wstring command = L"r.ScreenPercentage ";
-                command.append(std::to_wstring(screenpercentage));
-                API::get()->sdk()->functions->execute_command(command.c_str());
+
                 lastchange = std::format("Increased res to: {}%% after {:.2f} secs. Usage was {}%%", static_cast<int>(screenpercentage),
                     static_cast<float>(sinceincrease), static_cast<int>(usage));
                 API::get()->log_info(lastchange.c_str());
@@ -223,9 +221,7 @@ public:
             framesoverbudget = framesoverbudget + 1;
             if (framesoverbudget > decreaseframesrequired) {
                 screenpercentage = screenpercentage - decreaseresamount;
-                std::wstring command = L"r.ScreenPercentage ";
-                command.append(std::to_wstring(screenpercentage));
-                API::get()->sdk()->functions->execute_command(command.c_str());
+
                 lastchange = std::format("Decreased res to:{}%% after {:.2f} secs. Usage was {}%%", static_cast<int>(screenpercentage), static_cast<float>(sinceincrease), static_cast<int>(usage));
                 API::get()->log_info(lastchange.c_str());
                 sincedecrease = 0;
@@ -236,6 +232,9 @@ public:
         else {
             framesoverbudget = 0;
         }
+        std::wstring command = L"r.ScreenPercentage ";
+        command.append(std::to_wstring(screenpercentage));
+        API::get()->sdk()->functions->execute_command(command.c_str());
     }
 
 private:
