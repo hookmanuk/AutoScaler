@@ -62,7 +62,7 @@ public:
             API::get()->log_info("Usage now %d%%. Increased res to: %d%% after %.2f secs", usage, screenpercentage, sinceincrease);
             sinceincrease = 0;
         }
-        if (usage >= 92) {
+        if (usage >= 92 && screenpercentage >= 20) {
             framesoverbudget = framesoverbudget + 1;
             if (framesoverbudget > 9)
             {
