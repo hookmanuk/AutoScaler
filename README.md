@@ -15,6 +15,23 @@ e.g. If you want to target 90fps then turn motion smoothing off and set the fixe
 
 Or, if you want to target 45fps motion smoothing, then turn motion smoothing on and set the fixed rate to 45.
 
+### Config
+
+Configuration can be set via the new UI inside VR. It also writes into an autoscalerconfig.json file within the UEVR game folder where you can also edit the config.
+
+These are the default values, and what they do:
+
+"usagelowerbound": 82 - 
+"usageupperbound": 92
+"decreaseframesrequired": 10
+"increaseframesrequired": 20
+"decreaseresamount": 2
+"increaseresamount": 1
+
+When the GPU usage is above the `usagelowerbound` for `increaseframesrequired` number of consecutive frames, then the screen percentage is increased by `increaseresamount`
+
+When the GPU usage is below the `usageupperbound` for `decreaseframesrequired` number of consecutive frames, then the screen percentage is decreased by `decreaseresamount`
+
 ## Compatibility
 
 This plugin is compatible with multiple UEVR games.
