@@ -4,6 +4,8 @@ VisualStudioVersion = 17.13.35931.197
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AutoScaler", "AutoScaler.vcxproj", "{4A31A192-582A-428F-896D-87E2A5807A69}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UITest", "..\UITest\UITest.vcxproj", "{791F8BA0-05E4-4FB0-9BD9-83B18E5BE79D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -20,6 +22,14 @@ Global
 		{4A31A192-582A-428F-896D-87E2A5807A69}.Release|x64.Build.0 = Release|x64
 		{4A31A192-582A-428F-896D-87E2A5807A69}.Release|x86.ActiveCfg = Release|Win32
 		{4A31A192-582A-428F-896D-87E2A5807A69}.Release|x86.Build.0 = Release|Win32
+		{791F8BA0-05E4-4FB0-9BD9-83B18E5BE79D}.Debug|x64.ActiveCfg = Debug|x64
+		{791F8BA0-05E4-4FB0-9BD9-83B18E5BE79D}.Debug|x64.Build.0 = Debug|x64
+		{791F8BA0-05E4-4FB0-9BD9-83B18E5BE79D}.Debug|x86.ActiveCfg = Debug|Win32
+		{791F8BA0-05E4-4FB0-9BD9-83B18E5BE79D}.Debug|x86.Build.0 = Debug|Win32
+		{791F8BA0-05E4-4FB0-9BD9-83B18E5BE79D}.Release|x64.ActiveCfg = Release|x64
+		{791F8BA0-05E4-4FB0-9BD9-83B18E5BE79D}.Release|x64.Build.0 = Release|x64
+		{791F8BA0-05E4-4FB0-9BD9-83B18E5BE79D}.Release|x86.ActiveCfg = Release|Win32
+		{791F8BA0-05E4-4FB0-9BD9-83B18E5BE79D}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

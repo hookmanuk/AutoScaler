@@ -131,7 +131,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v12.9\include;uevr;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>H:\UEVRMods\UEVR\dependencies\submodules\imgui;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v12.9\include;uevr;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <LanguageStandard_C>stdclatest</LanguageStandard_C>
     </ClCompile>
@@ -146,7 +146,26 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\UEVR\dependencies\submodules\imgui\backends\imgui_impl_dx11.cpp" />
+    <ClCompile Include="..\UEVR\dependencies\submodules\imgui\backends\imgui_impl_dx12.cpp" />
+    <ClCompile Include="..\UEVR\dependencies\submodules\imgui\backends\imgui_impl_win32.cpp" />
+    <ClCompile Include="..\UEVR\dependencies\submodules\imgui\imgui.cpp" />
+    <ClCompile Include="..\UEVR\dependencies\submodules\imgui\imgui_demo.cpp" />
+    <ClCompile Include="..\UEVR\dependencies\submodules\imgui\imgui_draw.cpp" />
+    <ClCompile Include="..\UEVR\dependencies\submodules\imgui\imgui_tables.cpp" />
+    <ClCompile Include="..\UEVR\dependencies\submodules\imgui\imgui_widgets.cpp" />
     <ClCompile Include="dllmain.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\UEVR\dependencies\submodules\imgui\backends\imgui_impl_dx11.h" />
+    <ClInclude Include="..\UEVR\dependencies\submodules\imgui\backends\imgui_impl_dx12.h" />
+    <ClInclude Include="..\UEVR\dependencies\submodules\imgui\backends\imgui_impl_win32.h" />
+    <ClInclude Include="..\UEVR\dependencies\submodules\imgui\imconfig.h" />
+    <ClInclude Include="..\UEVR\dependencies\submodules\imgui\imgui.h" />
+    <ClInclude Include="..\UEVR\dependencies\submodules\imgui\imgui_internal.h" />
+    <ClInclude Include="..\UEVR\dependencies\submodules\imgui\imstb_rectpack.h" />
+    <ClInclude Include="..\UEVR\dependencies\submodules\imgui\imstb_textedit.h" />
+    <ClInclude Include="..\UEVR\dependencies\submodules\imgui\imstb_truetype.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
