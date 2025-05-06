@@ -34,9 +34,9 @@ These are the default values, and what they do:
 "decreaseframesrequired": 10  
 "decreaseresamount": 2  
 
-When the GPU usage is above the `usagelowerbound` for `increaseframesrequired` number of consecutive frames, then the screen percentage is increased by `increaseresamount`
+When the GPU usage is below the `usagelowerbound` for `increaseframesrequired` number of consecutive frames, then the screen percentage is increased by `increaseresamount`
 
-When the GPU usage is below the `usageupperbound` for `decreaseframesrequired` number of consecutive frames, then the screen percentage is decreased by `decreaseresamount`
+When the GPU usage is above the `usageupperbound` for `decreaseframesrequired` number of consecutive frames, then the screen percentage is decreased by `decreaseresamount`
 
 ## Compatibility
 
