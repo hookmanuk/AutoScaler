@@ -28,11 +28,11 @@ Configuration can be set via the new UI inside VR. It also writes into an `autos
 These are the default values, and what they do:
 
 "usagelowerbound": 82  
+"increaseframesrequired": 20  
+"increaseresamount": 1  
 "usageupperbound": 92  
 "decreaseframesrequired": 10  
-"increaseframesrequired": 20  
 "decreaseresamount": 2  
-"increaseresamount": 1  
 
 When the GPU usage is above the `usagelowerbound` for `increaseframesrequired` number of consecutive frames, then the screen percentage is increased by `increaseresamount`
 
