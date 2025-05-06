@@ -47,6 +47,19 @@ Primarily it has been tested as working well in Clair Obscur, note you will want
 
 Note that this plugin is only concerned with GPU usage. If your framerates are erratic due to CPU usage, then this plugin will not work well.
 
+### Games Tested
+
+#### Working
+
+- Clair Obscur
+- Oblivion
+- Silent Hill 2
+
+#### Not Supported
+
+- The Outer Worlds
+- South Of Midnight
+
 ## Implementation Method
 
 Uses Nvidia NVML to monitor GPU usage and then sets Screen Percentage based on that usage.
