@@ -43,6 +43,7 @@ SOFTWARE.
 #include <C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v12.9\include\nvml.h>
 #include "json.hpp"
 #include <fstream>
+#include <chrono>
 
 using namespace uevr;
 
@@ -61,6 +62,7 @@ public:
 
     void on_initialize() override {
         configpath = API::get()->get_persistent_dir(L"autoscalerconfig.json").string();
+        load_config();
         ImGui::CreateContext();
     }
 
@@ -103,7 +105,7 @@ public:
                 g_d3d12.render_imgui();
             }
         }
-    }
+    }    
 
     void on_device_reset() override {
         PLUGIN_LOG_ONCE("Example Device Reset");
@@ -200,7 +202,7 @@ public:
         }
         // aim to keep the usage between 82 & 92 percent
         // increase infrequently only by 5%, every 5 seconds at most, to prevent too many hitches
-        // decrease often and by 10%, every 0.5 seconds if needed, so we're not below target too long
+        // decrease often and by 10%, every 0.5 seconds if needed, so we're not below target too long        
         if (usage <= usagelowerbound && screenpercentage < 100) {
             framesunderbudget = framesunderbudget + 1;
             if (framesunderbudget > increaseframesrequired) {
@@ -235,6 +237,8 @@ public:
         std::wstring command = L"r.ScreenPercentage ";
         command.append(std::to_wstring(screenpercentage));
         API::get()->sdk()->functions->execute_command(command.c_str());
+
+        lasttick = std::chrono::high_resolution_clock::now();
     }
 
 private:
@@ -252,6 +256,8 @@ private:
     std::string lastchange = "";
     std::time_t lastchange_time = std::time(0);
     std::string configpath = "";
+    std::chrono::high_resolution_clock::time_point lasttick = std::chrono::high_resolution_clock::now();
+    bool isloading2d = false;
 
     std::string get_dll_directory() {
         HMODULE hModule = GetModuleHandle(NULL); // Get the handle of the current module (DLL or EXE)
@@ -348,16 +354,16 @@ private:
                 usageupperbound = j["usageupperbound"];
             }
             if (j.contains("decreaseframesrequired")) {
-                usageupperbound = j["decreaseframesrequired"];
+                decreaseframesrequired = j["decreaseframesrequired"];
             }
             if (j.contains("increaseframesrequired")) {
-                usageupperbound = j["increaseframesrequired"];
+                increaseframesrequired = j["increaseframesrequired"];
             }
             if (j.contains("decreaseresamount")) {
-                usageupperbound = j["decreaseresamount"];
+                decreaseresamount = j["decreaseresamount"];
             }
             if (j.contains("increaseresamount")) {
-                usageupperbound = j["increaseresamount"];
+                increaseresamount = j["increaseresamount"];
             }
         }
     }
@@ -440,8 +446,6 @@ private:
         }
         //API::get()->log_info("Internal frame done");
     }
-
-
 
 private:
     HWND m_wnd{};

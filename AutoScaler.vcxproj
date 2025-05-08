@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -146,26 +146,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\UEVR\dependencies\submodules\imgui\backends\imgui_impl_dx11.cpp" />
-    <ClCompile Include="..\UEVR\dependencies\submodules\imgui\backends\imgui_impl_dx12.cpp" />
-    <ClCompile Include="..\UEVR\dependencies\submodules\imgui\backends\imgui_impl_win32.cpp" />
-    <ClCompile Include="..\UEVR\dependencies\submodules\imgui\imgui.cpp" />
-    <ClCompile Include="..\UEVR\dependencies\submodules\imgui\imgui_demo.cpp" />
-    <ClCompile Include="..\UEVR\dependencies\submodules\imgui\imgui_draw.cpp" />
-    <ClCompile Include="..\UEVR\dependencies\submodules\imgui\imgui_tables.cpp" />
-    <ClCompile Include="..\UEVR\dependencies\submodules\imgui\imgui_widgets.cpp" />
     <ClCompile Include="dllmain.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\UEVR\dependencies\submodules\imgui\backends\imgui_impl_dx11.h" />
-    <ClInclude Include="..\UEVR\dependencies\submodules\imgui\backends\imgui_impl_dx12.h" />
-    <ClInclude Include="..\UEVR\dependencies\submodules\imgui\backends\imgui_impl_win32.h" />
-    <ClInclude Include="..\UEVR\dependencies\submodules\imgui\imconfig.h" />
-    <ClInclude Include="..\UEVR\dependencies\submodules\imgui\imgui.h" />
-    <ClInclude Include="..\UEVR\dependencies\submodules\imgui\imgui_internal.h" />
-    <ClInclude Include="..\UEVR\dependencies\submodules\imgui\imstb_rectpack.h" />
-    <ClInclude Include="..\UEVR\dependencies\submodules\imgui\imstb_textedit.h" />
-    <ClInclude Include="..\UEVR\dependencies\submodules\imgui\imstb_truetype.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
